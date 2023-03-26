@@ -1,0 +1,207 @@
+import * as React from 'react';
+import { useState, useRef  } from 'react';
+import './listtable.css';
+import { Modal } from 'react-bootstrap';
+import '../containers/scheduler/makeappointment.css'
+import { useCallback } from 'react';
+
+const test2 = (props) => {
+    const [modalInfo, setModalInfo] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [UID, updateId] = useState('')
+    const [show, setShow] = useState(false);
+    const handleClose = () => { setShow(false); setSelectedValue(null); setHideFields(true) }
+    const handleShow = () => setShow(true);
+    const [selectedValue, setSelectedValue] = useState("");
+    const [selectedValueofMeeting, setSelectedValueofMeeting] = useState("");
+    const [selectedValueofComfort, setSelectedValueofComfort] = useState("");
+    const [selectedValueofAdvice, setSelectedValueofAdvice] = useState("");
+    const [selectedValueofProfile, setSelectedValueofProfile] = useState("");
+    const [selectedValueofPrefer, setSelectedValueofPrefer] = useState("");
+    const [selectedValueofSatisfied, setSelectedValueofSatisfied] = useState("");
+    const [hideFields, setHideFields] = useState(true);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [text, setText] = useState("");
+
+    const handleCloseSuccess = () => setShowSuccess(false);
+    const handleShowSuccess = () => setShowSuccess(true);
+    const [selectedOption, setSelectedOption] = useState("");
+
+    const handleChange = useCallback((e) => {
+        setSelectedValueofMeeting(e.target.value),
+            console.log("setSelectedValueofMeeting..", selectedValueofMeeting)
+    }, [selectedValueofMeeting]);
+    const handleChange2 = useCallback((e) => {
+        setSelectedValueofComfort(e.target.value),
+            console.log("setSelectedValue of Comfort..", selectedValueofComfort)
+    }, [selectedValueofComfort]);
+
+    const handleInputChange = useCallback((event) => {     
+            setText(event.target.value);
+            console.log("hello...", event.target.value);        
+    },[text]);
+    
+
+    const RadioButtons = React.memo(({ handleInputChange }) => {
+        return (
+            <div className="content mentee-modal-popup">
+                <div className="container">
+                    <div className="card col-10 me-auto ms-auto p-0">
+                        <div className="card-body">
+                            <div className="mentor-widget">
+                                <div className="meeting-info-left align-items-center">
+                                    <div className="meeting-details ">
+                                        <h4 className="user-meeting-id">Meeting Id : {modalInfo[0]}</h4>
+                                        <p className="user-mentor-id">Mentor Id : {modalInfo[3]}</p>
+                                        <p className="user-name">Mentor Name : {modalInfo[8]}</p>
+                                        <p className="user-s-date">Scheduled Date : {modalInfo[1]}</p>
+                                        <p className="user-s-time">Scheduled Time : {modalInfo[2]}</p>
+                                        <p className="user-status">Status : {modalInfo[6]}</p>
+                                    </div>
+                                </div>
+                                <div className="user-info-right">
+                                    <div className='cost-label'>
+                                    </div>
+                                    <div className="hireme-btn text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='feedbackform-title'>
+                        <h5> Your Feedback </h5>
+                    </div>
+                    <div className='feedbackform-title'>
+                        <h5> Did Mentor Joined the meeting? </h5>
+                    </div>
+                    <div className='mentor-joins'>
+                        <label>
+                            <input type="radio" value="Yes" checked={selectedValue === "Yes"} onChange={(e) => { setSelectedValue(e.target.value); setHideFields(false) }} />
+                            Yes
+                        </label>
+                        <label>
+                            <input type="radio" value="No" checked={selectedValue === "No"} onChange={(e) => { setSelectedValue(e.target.value); setHideFields(true) }} />
+                            No
+                        </label>
+                    </div>
+                    <div hidden={hideFields} className="card col-10 me-auto ms-auto p-0">
+                        <div className="card-body custom-border-card pb-0">
+                            <div className="tab-content pt-0">
+                                <div role="tabpanel" id="biography" className="tab-pane fade show active">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="widget about-widget custom-about mb-0">
+                                                <h6 className="feedback-form-section-1">Was Meeting useful?</h6>
+                                                <hr />
+                                                <div className='candidate-corporate-ready'>
+                                                    <label>
+                                                        <input type="radio" value="Yes" checked={selectedValueofMeeting === "Yes"} onChange={handleChange} />
+                                                        Yes
+                                                    </label> &nbsp; &nbsp;
+                                                    <label>
+                                                        <input type="radio" value="No" checked={selectedValueofMeeting === "No"} onChange={handleChange} />
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden={hideFields} className="card col-10 me-auto ms-auto p-0">
+                        <div className="card-body custom-border-card pb-0">
+                            <div className="widget education-widget mb-0">
+                                <h6 className="feedback-form-section-2">Were you comfortable?</h6>
+                                <hr />
+                                <div className='candidate-corporate-ready'>
+                                    <label>
+                                        <input type="radio" value="Yes" checked={selectedValueofComfort === "Yes"} onChange={handleChange2} />
+                                        Yes
+                                    </label> &nbsp; &nbsp;
+                                    <label>
+                                        <input type="radio" value="No" checked={selectedValueofComfort === "No"} onChange={handleChange2} />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden={hideFields} className="card col-10 me-auto ms-auto p-0">
+                        <div className="card-body custom-border-card pb-0">
+                            <div className="widget education-widget mb-0">
+                                <h6 className="feedback-form-section-2">Overall ideas about strength/weakness throughout the session</h6>
+                                <hr />
+                                
+                                <textarea type="text" value={text} onChange={handleChange} />
+                                <p>You entered: {text}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button className='feedbackform-submit-button' onClick={onsubmit} disabled={enableSubmitButton()}>Submit</button>
+                </div>
+            </div>
+        )
+    },);
+    const toggleTrueFalse = () => {
+        setShowModal(handleShow);
+    }
+    const onsubmit = () => {
+        console.log("done....", text)
+        handleClose();
+        handleShowSuccess();
+    }
+    const goBack = () => {
+        handleCloseSuccess();
+    }
+    function enableSubmitButton() {
+        if (selectedValue != "") {
+            return false
+        }
+        else {
+            return true
+        }
+    }
+    return (
+        <>
+            <div>
+                <button style={{ marginTop: "10rem" }} onClick={(event) => {
+                    toggleTrueFalse();
+                }}>feedback</button>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Feedback form</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <RadioButtons handleChange={handleInputChange} value={text} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+            <Modal
+                show={showSuccess} onHide={handleCloseSuccess}
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header className='appointment-modal-header'>
+                    <Modal.Title style={{ color: "green" }} className='appointment-modal-title' id="contained-modal-title-vcenter">
+                        Success
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className='appointment-modal-body'>
+                    <p style={{ textAlign: "center" }}> Your response have been <strong style={{ color: "green" }}>successfully</strong> saved
+                    </p>
+                    <div className='appointment-modal-footer'>
+                        <button className='appointment-modal-btn' type='button' onClick={goBack}>Okay</button>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>
+    );
+}
+export default test2;
